@@ -157,8 +157,28 @@ SELECT * FROM MapPersonType;
 
 /* UC 13 */
 /* UC 6 */
-select p.PersonID,concat(p.FirstName,'.',p.LastName)as Name,concat(p.Address,',',p.City,',',p.State,',',p.ZipCode) as Address,p.PhoneNumber,p.Email,
-pt.PersonID,pt.PersonType,ab.AddressBookTable(ab.AddressBookID ,ab.AddressBookName)
-from AddressBook ab,Person p,PersonType pt,MapPersonType mpt
-where (ab.AddressBookID=p.AddressBookID  and p.PersonID=mpt.PersonID and mpt.PersonTypeID=pt.PersonID) and (City='Nellore' or State='AP') ;
+select p.PersonID,concat(p.FirstName,p.LastName)as Name,concat(p.Address,',',p.City,',',p.State,',',p.ZipCode) as Address,
+p.PhoneNumber,p.Email,pt.PersonID,pt.PersonType,ab.AddressBookID ,ab.AddressBookName
+from AddressBookTable ab,Person p,PersonType pt,MapPersonType mpt
+where (ab.AddressBookID=p.AddressBookID  and p.PersonID=mpt.PersonID and mpt.PersonTypeID=pt.PersonID) and (City='Pune' or State='MH') ;
 
+/* UC 7 */
+select count(*),State from Person 
+inner join AddressBookTable on Person.AddressBookID= AddressBookTable.AddressBookID group by State;
+
+select count(*),City
+from Person 
+inner join AddressBookTable on Person.AddressBookID= AddressBookTable.AddressBookID group by City;
+
+/* UC 8*/
+select p.PersonID,concat(p.FirstName,p.LastName)as Name,
+concat(p.Address,',',p.City,',',p.State,',',p.ZipCode) as Address,p.PhoneNumber,p.Email,
+pt.PersonID,pt.PersonType,ab.AddressBookID ,ab.AddressBookName
+from AddressBookTable ab,Person p,PersonType pt,MapPersonType mpt
+where (ab.AddressBookID=p.AddressBookID  and p.PersonID=mpt.PersonID and mpt.PersonID=pt.PersonID) and (State='MH') order by FirstName;
+
+/* UC 10 */
+SELECT COUNT(*),pt.PersonType FROM
+MapPersonType AS mpt 
+inner join PersonType as pt On pt.PersonId = mpt.PersonId
+inner join Person as p on p.PersonId = mpt.PersonId GROUP BY pt.PersonType;
